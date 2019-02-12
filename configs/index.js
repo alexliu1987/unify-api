@@ -1,5 +1,6 @@
 module.exports = Object.assign(
   {
+    model: '../../unify-admin/src/model/',
     routeDir: 'routes',
     pino: { level: 'info' },
     redis: {

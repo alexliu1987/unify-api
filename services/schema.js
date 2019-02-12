@@ -1,6 +1,6 @@
-const mongoose = require("mongoose");
-const redis = require("./redis");
-const config = require("../configs/index");
+const mongoose = require('mongoose');
+const redis = require('./redis');
+const config = require('../configs/index');
 const modelPath = config.model;
 let _cache = {};
 
@@ -16,14 +16,14 @@ module.exports = {
  */
 function create(model, type = 1) {
   if (!model) {
-    throw "invalid schema";
+    throw 'invalid schema';
   }
   let schema = {
-    createAt: "Moment",
-    updateAt: "Moment"
+    createAt: 'Moment',
+    updateAt: 'Moment'
   };
   Object.entries(model).map(([k, v]) => {
-    if (!["_id", "createAt", "updateAt"].includes(k)) {
+    if (!['_id', 'createAt', 'updateAt'].includes(k)) {
       schema[k] = type === 1 ? v.constructor.name : v.type;
     }
   });
@@ -42,8 +42,8 @@ async function get(collection, model) {
     );
     return _cache[collection];
   }
-  if (modelPath && model) {
-    model = require(`${modelPath}${collection.replace(/-/g, "/")}`);
+  if (modelPath && !model) {
+    model = require(`${modelPath}${collection.replace(/-/g, '/')}`);
   }
   schema = create(model);
   return set(collection, schema);

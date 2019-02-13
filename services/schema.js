@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const redis = require('./redis');
-const config = require('../configs/index');
-const modelPath = config.model;
+const cfg = require('../configs/index');
+const Model = require('../model');
 let _cache = {};
 
 module.exports = {
@@ -42,10 +42,9 @@ async function get(collection, model) {
     );
     return _cache[collection];
   }
-  if (modelPath && !model) {
-    model = require(`${modelPath}${collection.replace(/-/g, '/')}`);
-  }
-  schema = create(model);
+  schema = create(
+    collection.split('-').reduce((res, item) => res[item], Model)
+  );
   return set(collection, schema);
 }
 

@@ -30,7 +30,7 @@ function create(model, type = 1) {
   return schema;
 }
 
-async function get(collection, model) {
+async function get(collection) {
   if (_cache[collection]) {
     return _cache[collection];
   }
